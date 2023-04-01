@@ -4,6 +4,8 @@ package grandprix;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -23,30 +25,49 @@ public class Championship {
     static final int MAJOR_MECHANICAL_FAULT = 3;
     static final int UNRECOVERABLE_MECHANICAL_FAULT = 1;
     
-    private ArrayList<Driver> drivers;
-    private ArrayList<Venue> venues;
+    public static ArrayList<Driver> drivers = new ArrayList<Driver>();
+    public static ArrayList<Venue> venues = new ArrayList<Venue>();
     
     //konstruktor treba da cita podatke iz txt fajlova
-    public Championship()throws IOException{
+    public Championship() throws IOException{
         
-        	System.out.println("-------------------------------------");
+        System.out.println("-------------------------------------");
 
-		File f1 = new File("vozaci");	//kreiranje File objekta koji reprezentuje vozaci.txt fajl
-		//provera da li postoji fajl
-                if(f1.exists()){
-			//koristimo reader, a ne stream, da bi bilo sve korektno sa UTF8 enkodingom
-			//reader je buffer-izovan zbog performansi
-			BufferedReader in1 = new BufferedReader(new InputStreamReader(new FileInputStream( f1), "UTF8")); 
-			String s2;
-			while((s2 = in1.readLine()) != null) {
-				//da bi se videla cirilicna slova, mora se podesiti enkoding 
-				//ici na Run->Run configurations->Common->Encoding->Other UTF8
-				System.out.println(s2);
-			}
-			in1.close();
-		} else {
-			System.out.println("Ne postoji fajl!");
-		}
+        String sP = System.getProperty("file.separator");
+        File f = new File("."+sP+"fajlovi"+sP+"vozaci.txt");	//kreiranje File objekta koji reprezentuje vozaci.txt fajl
+        
+        //provera da li postoji fajl
+        if(f.exists()){
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream( f), "UTF8")); 
+            String data;
+            while((data = in.readLine()) != null) {
+                    drivers.add(new Driver(data));
+            }
+            in.close();
+        }else {
+            System.out.println("Nije pronadjen fajl!");
+        }
+        f = new File("."+sP+"fajlovi"+sP+"staze.txt");
+        if(f.exists()){
+            BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream( f), "UTF8")); 
+            String data;
+            while((data = in.readLine()) != null) {
+                    venues.add(new Venue(data));
+            }
+            in.close();
+        }else {
+            System.out.println("Nije pronadjen fajl!");
+        }
+    }
+    public static void getAllDrivers(){
+            for (int i = 0; i < drivers.size(); i++) {
+                    System.out.println(drivers.get(i));
+            }
+    }
+    public static void getAllVenues(){
+        for (int i = 0; i < venues.size(); i++) {
+                System.out.println(venues.get(i));
+        }
     }
     
     public void prepareForTheRace(){ // inicijalizacija atributa za svakog vozaca

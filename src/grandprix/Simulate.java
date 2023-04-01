@@ -1,6 +1,7 @@
 package grandprix;
 
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /*
@@ -17,9 +18,13 @@ public class Simulate {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
+        Championship ch = new Championship(); 
+        Championship.getAllDrivers();
+        Championship.getAllVenues();
+        
     }
     
 }

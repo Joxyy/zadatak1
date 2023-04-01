@@ -15,14 +15,26 @@ public class Venue {
     private int numberOfLaps;
     private String venueName;
     
-    public Venue(String name, int lapsNo, int avgTime, double rainChance){
-        this.venueName= name;
-        this.numberOfLaps=lapsNo;
-        this.averageLapTime=avgTime;
-        this.chanceOfRain=rainChance;
+    public Venue(){}
+    
+    public Venue(String data){
+        String [] tokens = data.split(",");
+        if(tokens.length!=4){
+            System.out.println("Greska pri ocitavanju" + tokens);
+            System.exit(0);
+	}
+        this.venueName=tokens[0];
+        this.numberOfLaps=Integer.parseInt(tokens[1]);
+        this.averageLapTime=Integer.parseInt(tokens[2]);
+        this.chanceOfRain=Double.parseDouble(tokens[3]);
     }
     
-    public int getAverageLapTime() {
+    @Override
+    public String toString() {
+        return this.venueName + ", number of laps: " + this.numberOfLaps + " (average Lap time: " + this.averageLapTime + "), with the chance of rain " + String.format("%.1f",(this.chanceOfRain*100)) +"%";
+    }
+    
+    public double getAverageLapTime() {
         return averageLapTime;
     }
 

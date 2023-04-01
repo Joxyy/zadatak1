@@ -17,10 +17,23 @@ public class Driver {
     private int accumulatedTime;
     private int accumulatedPoints;
     
-    public Driver(String name, int ranking, String specialSkill){
-        this.name=name;
-        this.ranking=ranking;
-        this.specialSkill=specialSkill;
+    public Driver(){}
+    
+    public Driver(String data){
+        String [] tokens = data.split(",");
+        if(tokens.length!=3){
+            System.out.println("Greska pri ocitavanju" + tokens);
+            System.exit(0);
+	}
+        this.name=tokens[0];
+        this.ranking=Integer.parseInt(tokens[1]);
+        this.specialSkill=tokens[2];
+    }
+    
+    //prebacivanje objekta Student u string reprezentaciju
+    @Override
+    public String toString() {
+            return "(" + this.ranking + ") " + this.name + ", special skill: " + this.specialSkill ;
     }
     
     public void useSpecialSkill(/*RNG rng*/){
