@@ -25,8 +25,11 @@ public class Championship {
     static final int MAJOR_MECHANICAL_FAULT = 3;
     static final int UNRECOVERABLE_MECHANICAL_FAULT = 1;
     
-    public static ArrayList<Driver> drivers = new ArrayList<Driver>();
-    public static ArrayList<Venue> venues = new ArrayList<Venue>();
+    public ArrayList<Driver> drivers = new ArrayList<Driver>();
+    public ArrayList<Venue> venues = new ArrayList<Venue>();
+    
+    private int currentVenue=-1;
+    
     
     //konstruktor treba da cita podatke iz txt fajlova
     public Championship() throws IOException{
@@ -59,18 +62,37 @@ public class Championship {
             System.out.println("Nije pronadjen fajl!");
         }
     }
-    public static void getAllDrivers(){
-            for (int i = 0; i < drivers.size(); i++) {
-                    System.out.println(drivers.get(i));
+    
+    public boolean venueSelection(String venueName){
+        for(int i = 0; i < venues.size(); i++){
+            if(venueName.equalsIgnoreCase(venues.get(i).getVenueName())){
+                System.out.println("Odabrana je staza: "+venues.get(i));
+                this.currentVenue=i;
+                return false;
             }
+        }
+        System.out.println("Uneta je nepostojeća staza");
+        return true;
     }
-    public static void getAllVenues(){
+    
+    public void getAllDrivers(){
+        for (Driver d: drivers) {
+                System.out.println(d);
+        }
+        System.out.println("\n");
+    }
+    public void getAllVenues(){
         for (int i = 0; i < venues.size(); i++) {
                 System.out.println(venues.get(i));
         }
+        System.out.println("\n");
     }
     
+    
     public void prepareForTheRace(){ // inicijalizacija atributa za svakog vozaca
+        for (Driver d: drivers) {
+            d.setRanking(currentVenue);
+        }
     }
     public void driveAverageLapTime(){ // svakom vozaču koji vozi trku, dodeli srednje vreme voženja kruga (određeno samom stazom)     
     }

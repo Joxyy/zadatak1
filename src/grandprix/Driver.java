@@ -9,11 +9,11 @@ package grandprix;
  *
  * @author joxy
  */
-public class Driver {
+public class Driver implements Comparable<Driver>{
     private String name;
     private int ranking;
     private String specialSkill;
-    private boolean eligibleToRace;
+    private boolean eligibleToRace;    //podrazumevano je false
     private int accumulatedTime;
     private int accumulatedPoints;
     
@@ -33,8 +33,15 @@ public class Driver {
     //prebacivanje objekta Student u string reprezentaciju
     @Override
     public String toString() {
-            return "(" + this.ranking + ") " + this.name + ", special skill: " + this.specialSkill ;
+            return "(" + this.ranking + ") " + this.name + ", specijalna veština: " + this.specialSkill ;
     }
+     
+    @Override   //ovo ce nam omoguciti da sortiramo po rankingu
+    public int compareTo(Driver other) {
+        if (this.ranking < other.ranking) return -1;
+        else if (this.ranking > other.ranking) return 1;
+        else return 0;
+    } 
     
     public void useSpecialSkill(/*RNG rng*/){
         

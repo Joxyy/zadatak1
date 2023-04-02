@@ -14,6 +14,7 @@ public class Venue {
     private double chanceOfRain;
     private int numberOfLaps;
     private String venueName;
+    public boolean flgTwice = false;    //za proveru da li je ponovo uneta ista staza
     
     public Venue(){}
     
@@ -31,7 +32,7 @@ public class Venue {
     
     @Override
     public String toString() {
-        return this.venueName + ", number of laps: " + this.numberOfLaps + " (average Lap time: " + this.averageLapTime + "), with the chance of rain " + String.format("%.1f",(this.chanceOfRain*100)) +"%";
+        return this.venueName + ", broj krugova: " + this.numberOfLaps + " (prosečno vreme: " + this.averageLapTime + "), sa šansom za kišu " + String.format("%.1f",(this.chanceOfRain*100)) +"%";
     }
     
     public double getAverageLapTime() {
