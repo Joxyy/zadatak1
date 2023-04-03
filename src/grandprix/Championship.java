@@ -31,6 +31,7 @@ public class Championship {
     public ArrayList<Venue> venues = new ArrayList<Venue>();
     
     private Venue currentVenue;
+    private Driver leader;
     private int sec;
     private int lapNo;
     private int raceNo=1;
@@ -79,9 +80,7 @@ public class Championship {
         System.out.println("Uneta je nepostojeća staza");
         return true;
     }
-    public void sortDrivers(){
-        Collections.sort(drivers);
-    }
+
     public void printAllDrivers(){
         for (Driver d: drivers) {
                 System.out.println(d);
@@ -97,7 +96,7 @@ public class Championship {
     
     
     public void prepareForTheRace(){ // inicijalizacija atributa za svakog vozaca
-        this.sortDrivers();
+        Collections.sort(drivers);
         System.out.println("Aktuelno stanje na tabeli:\n");
         for(int i = 0; i < drivers.size(); i++){
             Driver d=drivers.get(i);
@@ -109,13 +108,12 @@ public class Championship {
     }
     
     private void lap(){     //simulacija 1 kruga
-        this.driveAverageLapTime();
         boolean kraj=false;
         while(!kraj){
             System.out.println(this.sec);
             for(Driver d : drivers){
                 if(d.getAccumulatedTime()==0){
-                    System.out.println("Vodeci igrac na kraju " + this.lapNo + ". kruga je " + d.getName());
+                    leader=d;
                     kraj=true;
                     break;
                 }
@@ -130,18 +128,23 @@ public class Championship {
         }
     }
     public void race(){    //simulacija 1 trke
-        for(lapNo=1;lapNo<=currentVenue.getNumberOfLaps();lapNo++){
-            System.out.println("-------------------------------------");
+        for(int lapNo=1;lapNo<=currentVenue.getNumberOfLaps();lapNo++){
+            this.driveAverageLapTime();
             System.out.println(lapNo+". krug:");
+            System.out.println("-------------------------------------");
             this.lap();
+            printLeader(lapNo);
         }
+        Driver.setSortParam("time");    //sortira po akumuliranom vremenu
+        Collections.sort(drivers);
+        this.printWinnersAfterRace(currentVenue.getVenueName());
     }
 
     public void driveAverageLapTime(){ // svakom vozaču koji vozi trku, dodeli srednje vreme voženja kruga (određeno samom stazom)     
         System.out.println("-------------------------------------");
         System.out.println("Ocekivano vreme potrebno svakom igracu za predstojeci krug:\n");
         for(Driver d : drivers){
-            d.setAccumulatedTime(this.currentVenue.getAverageLapTime()+d.getAccumulatedTime());
+            d.setAccumulatedTime(d.getAccumulatedTime()+this.currentVenue.getAverageLapTime());
             System.out.println(d.getName()+" - "+d.getAccumulatedTime() + "s");
         }
         System.out.println("-------------------------------------");
@@ -152,8 +155,14 @@ public class Championship {
 
     }
     public void printLeader(int lap){ // ispiši ko je na prvom mestu nakon kruga lap
+        System.out.println("Vodeci igrac na kraju " + lap + ". kruga je " + leader.getName());
     }
     public void printWinnersAfterRace(String venueName){ // ispiši imena pobednika (četiri najbolje rangirana vozača) na stazi venueName
+        System.out.println("-------------------------------------");
+        System.out.println("4 najbolje rangirana vozaca ("+ venueName +"):\n");
+        for(int i=0;i<4;i++){
+            System.out.println((i+1)+".) "+drivers.get(i).getName());
+        }
     }
     public void printChampion(int numOfRaces){ // ispisati poruku o tome ko je sampion na kraju šampionata, tj. nakon numOfRaces odvozanih trka
     }

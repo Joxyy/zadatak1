@@ -16,6 +16,7 @@ public class Driver implements Comparable<Driver>{
     private boolean eligibleToRace=true;    //podrazumevano je false
     private int accumulatedTime;
     private int accumulatedPoints;
+    private static String sortParam = "ranking";
     
     public Driver(){}
     
@@ -35,12 +36,27 @@ public class Driver implements Comparable<Driver>{
     public String toString() {
             return "(" + this.ranking + ") " + this.name + ", specijalna veština: " + this.specialSkill;
     }
-     
-    @Override   //ovo ce nam omoguciti da sortiramo po rankingu
+    
+    
+    
+    @Override   //ovo ce nam omoguciti da sortiramo
     public int compareTo(Driver other) {
-        if (this.ranking < other.ranking) return -1;
-        else if (this.ranking > other.ranking) return 1;
-        else return 0;
+        if(sortParam.equalsIgnoreCase("ranking")){
+            if (this.ranking < other.ranking) return -1;
+            else if (this.ranking > other.ranking) return 1;
+            else return 0;
+        }
+        else if(sortParam.equalsIgnoreCase("points")){
+            if (this.accumulatedPoints < other.accumulatedPoints) return 1;
+            else if (this.accumulatedPoints > other.accumulatedPoints) return -1;
+            else return 0;
+        }
+        else if(sortParam.equalsIgnoreCase("time")){
+            if (this.accumulatedTime < other.accumulatedTime) return -1;
+            else if (this.accumulatedTime > other.accumulatedTime) return 1;
+            else return 0;
+        }
+        return 0;
     } 
     
     public void useSpecialSkill(RNG rng){
@@ -94,6 +110,9 @@ public class Driver implements Comparable<Driver>{
     public void setAccumulatedPoints(int accumulatedPoints) {
         this.accumulatedPoints = accumulatedPoints;
     }
-    
+
+    public static void setSortParam(String sortParam) {
+        Driver.sortParam = sortParam;
+    }
     
 }
