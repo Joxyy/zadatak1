@@ -22,12 +22,16 @@ public class Simulate {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
         Championship f1 = new Championship();
-        System.out.println("Trenutno stanje na tabeli:\n");
-        f1.getAllDrivers();
-         
+        
+        
+        System.out.println("Učitani podaci o igračima:\n");
+        f1.printAllDrivers();
+        System.out.println("-------------------------------------");
+        System.out.println("Učitani podaci o stazama:\n");
+        f1.printAllVenues();
+        System.out.println("-------------------------------------");
         
         System.out.println("Koliko trka ce se voziti (3÷5)");
-        
         int raceNum = 0;
         boolean notRead = true;
         do {
@@ -40,13 +44,21 @@ public class Simulate {
                 }
                 sc.nextLine(); //cisti sve sa ulaza sto nije broj ili ostatak teste posla broja
         } while (notRead);
-        
         System.out.println("-------------------------------------");
-        System.out.println("Odaberite prvu stazu (uneti pun naziv):\n");
-        f1.getAllVenues();
-        System.out.print("-->");
+        
+        System.out.println("Odaberite prvu stazu (uneti pun naziv):");
         String venueName = sc.nextLine();
         while(f1.venueSelection(venueName)) venueName = sc.nextLine();
+        System.out.println("-------------------------------------");
+        
+        System.out.println("Priprema za prvu stazu:\n");
+        f1.prepareForTheRace();
+        
+        System.out.println("-------------------------------------");
+        System.out.println(raceNum + ". trka:\n");
+        //u for petlji do raceNum trka
+        f1.race();
+        
         
     }
     

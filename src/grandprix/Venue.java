@@ -35,7 +35,7 @@ public class Venue {
         return this.venueName + ", broj krugova: " + this.numberOfLaps + " (prosečno vreme: " + this.averageLapTime + "), sa šansom za kišu " + String.format("%.1f",(this.chanceOfRain*100)) +"%";
     }
     
-    public double getAverageLapTime() {
+    public int getAverageLapTime() {
         return averageLapTime;
     }
 
