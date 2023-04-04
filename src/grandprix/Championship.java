@@ -26,6 +26,7 @@ public class Championship {
     static final int MAJOR_MECHANICAL_FAULT = 3;
     static final int UNRECOVERABLE_MECHANICAL_FAULT = 1;
     static final int penalties[] = {0,3,5,7,10}; 
+    static final int points[] = {8,5,3,1}; 
     
     public ArrayList<Driver> drivers = new ArrayList<Driver>();
     public ArrayList<Venue> venues = new ArrayList<Venue>();
@@ -140,11 +141,9 @@ public class Championship {
             this.lap();
             printLeader(lapNo);
         }
-        Driver.setSortParam("time");    //sortira po akumuliranom vremenu
-        Collections.sort(drivers);
+        this.pointsAssign();;
         this.printWinnersAfterRace(currentVenue.getVenueName());
-        Driver.setSortParam("points");    //sortira po akumuliranom vremenu
-        Collections.sort(drivers);
+
     }
 
     public void driveAverageLapTime(){ // svakom vozaču koji vozi trku, dodeli srednje vreme voženja kruga (određeno samom stazom)     
@@ -224,15 +223,26 @@ public class Championship {
         System.out.println("\nLeading player in the end of the " + lap + ". lap is " + leader.getName() + " (" + leader.getAccumulatedTime()+"s)");
     }
     public void printWinnersAfterRace(String venueName){ // ispiši imena pobednika (četiri najbolje rangirana vozača) na stazi venueName
+        Driver.setSortParam("points");    //sortira po akumuliranom vremenu
+        Collections.sort(drivers);
         System.out.println("-------------------------------------");
         System.out.println("4 best ranged players ("+ venueName +"):\n");
         for(int i=0;i<4;i++){
-            System.out.println((i+1)+".) "+drivers.get(i).getName());
+            System.out.println((i+1)+".) "+drivers.get(i).getName()+ " - " + drivers.get(i).getAccumulatedPoints() + " points");
+            //drivers.get(i).setRanking(1); postvi pri incijalizaciji trke
         }
         System.out.println("-------------------------------------");
     }
     public void printChampion(int numOfRaces){ // ispisati poruku o tome ko je sampion na kraju šampionata, tj. nakon numOfRaces odvozanih trka
-        System.out.println("The champion after " + numOfRaces + " races is " + leader.getName());
+        System.out.println("The champion after " + numOfRaces + " races is " + drivers.get(0).getName());
+    }
+    public void pointsAssign(){
+        Driver.setSortParam("time");    //sortira po akumuliranom vremenu
+        Collections.sort(drivers);
+        Collections.sort(drivers);
+        for (int i=0;i<4;i++){
+            drivers.get(i).setAccumulatedPoints(drivers.get(i).getAccumulatedPoints()+points[i]);
+        }
     }
     
     
