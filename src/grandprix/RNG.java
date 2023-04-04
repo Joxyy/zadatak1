@@ -12,13 +12,14 @@ import java.util.Random;
  *
  * @author joxy
  */
-public abstract class RNG {
+public class RNG {
     private int minimumValue;
     private int maximumValue;
     private int desiredRnd;
-    private Random rnd;
+    private Random rnd = new Random ();
   
-
+    public RNG(){}
+    
     public RNG(int min, int max){
         this.minimumValue=min;
         this.maximumValue=max;
@@ -28,7 +29,7 @@ public abstract class RNG {
         this.desiredRnd = rnd.nextInt((this.maximumValue - this.minimumValue) + 1) + this.minimumValue;
         return desiredRnd;
     }
-
+    
     public int getMinimumValue() {
         return minimumValue;
     }
@@ -40,6 +41,11 @@ public abstract class RNG {
     public Random getRnd() {
         return rnd;
     }
+
+    public int getDesiredRnd() {
+        return desiredRnd;
+    }
+    
 
     public void setMinimumValue(int minimumValue) {
         this.minimumValue = minimumValue;

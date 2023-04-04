@@ -13,10 +13,12 @@ public class Driver implements Comparable<Driver>{
     private String name;
     private int ranking;
     private String specialSkill;
-    private boolean eligibleToRace=true;    //podrazumevano je false
+    private boolean eligibleToRace;    //podrazumevano je false
     private int accumulatedTime;
+    private int remainTime;
     private int accumulatedPoints;
     private static String sortParam = "ranking";
+    private boolean dryPneu;
     
     public Driver(){}
     
@@ -34,33 +36,37 @@ public class Driver implements Comparable<Driver>{
     //prebacivanje objekta Driver u string reprezentaciju
     @Override
     public String toString() {
-            return "(" + this.ranking + ") " + this.name + ", specijalna veština: " + this.specialSkill;
+            return "(" + this.ranking + ") " + this.name + ", skill: " + this.specialSkill;
     }
     
     
     
     @Override   //ovo ce nam omoguciti da sortiramo
     public int compareTo(Driver other) {
-        if(sortParam.equalsIgnoreCase("ranking")){
-            if (this.ranking < other.ranking) return -1;
-            else if (this.ranking > other.ranking) return 1;
-            else return 0;
+        if(this.isEligibleToRace()){
+            if(sortParam.equalsIgnoreCase("ranking")){
+                if (this.ranking < other.ranking) return -1;
+                else if (this.ranking > other.ranking) return 1;
+                else return 0;
+            }
+            else if(sortParam.equalsIgnoreCase("points")){
+                if (this.accumulatedPoints < other.accumulatedPoints) return 1;
+                else if (this.accumulatedPoints > other.accumulatedPoints) return -1;
+                else return 0;
+            }
+            else if(sortParam.equalsIgnoreCase("time")){
+                if (this.accumulatedTime < other.accumulatedTime) return -1;
+                else if (this.accumulatedTime > other.accumulatedTime) return 1;
+                else return 0;
+            }
+            return 0;
         }
-        else if(sortParam.equalsIgnoreCase("points")){
-            if (this.accumulatedPoints < other.accumulatedPoints) return 1;
-            else if (this.accumulatedPoints > other.accumulatedPoints) return -1;
-            else return 0;
-        }
-        else if(sortParam.equalsIgnoreCase("time")){
-            if (this.accumulatedTime < other.accumulatedTime) return -1;
-            else if (this.accumulatedTime > other.accumulatedTime) return 1;
-            else return 0;
-        }
-        return 0;
+        else return 1;
     } 
     
     public void useSpecialSkill(RNG rng){
-        
+        this.accumulatedTime-=rng.getRandomValue();
+        System.out.println(this.name + " will use " + this.specialSkill + " (-" + rng.getDesiredRnd()+ ")");
     }
 
     public String getName() {
@@ -83,10 +89,19 @@ public class Driver implements Comparable<Driver>{
         return accumulatedTime;
     }
 
+    public static String getSortParam() {
+        return sortParam;
+    }
+    
+
     public int getAccumulatedPoints() {
         return accumulatedPoints;
     }
 
+    public boolean isDryPneu() {
+        return dryPneu;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -113,6 +128,10 @@ public class Driver implements Comparable<Driver>{
 
     public static void setSortParam(String sortParam) {
         Driver.sortParam = sortParam;
+    }
+
+    public void setDryPneu(boolean dryPneu) {
+        this.dryPneu = dryPneu;
     }
     
 }

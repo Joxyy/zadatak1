@@ -17,6 +17,7 @@ public class Simulate {
 
     /**
      * @param args the command line arguments
+     * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
         // TODO code application logic here
@@ -24,7 +25,7 @@ public class Simulate {
         Championship f1 = new Championship();
         
         
-        System.out.println("Učitani podaci o igračima:\n");
+        System.out.println("Učitani podaci o igracima:\n");
         f1.printAllDrivers();
         System.out.println("-------------------------------------");
         System.out.println("Učitani podaci o stazama:\n");
@@ -38,7 +39,7 @@ public class Simulate {
                 if (sc.hasNextInt()) {
                         raceNum = sc.nextInt();
                         if(raceNum>=3 && raceNum<= 5) notRead = false;
-                        else System.out.println("GRESKA - Pogresno unsesena vrednost, pokusajte ponovo: ");
+                        else System.out.println("GRESKA - Pogresno unesena vrednost, pokusajte ponovo: ");
                 } else {
                         System.out.println("GRESKA - Pogresno unsesena vrednost, pokusajte ponovo: ");
                 }
@@ -53,9 +54,8 @@ public class Simulate {
         
         System.out.println("Priprema za prvu stazu:\n");
         f1.prepareForTheRace();
-        
         System.out.println("-------------------------------------");
-        System.out.println(raceNum + ". trka:\n");
+        System.out.println(raceNum + ". trka:");
         //u for petlji do raceNum trka
         f1.race();
         
