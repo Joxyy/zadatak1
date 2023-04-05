@@ -21,7 +21,7 @@ public class Venue {
     public Venue(String data){
         String [] tokens = data.split(",");
         if(tokens.length!=4){
-            System.out.println("Greska pri ocitavanju" + tokens);
+            System.out.println("Error during the reading of " + tokens);
             System.exit(0);
 	}
         this.venueName=tokens[0];
@@ -32,7 +32,7 @@ public class Venue {
     
     @Override
     public String toString() {
-        return this.venueName + ", broj krugova: " + this.numberOfLaps + " (prosečno vreme: " + this.averageLapTime + "), sa šansom za kišu " + String.format("%.1f",(this.chanceOfRain*100)) +"%";
+        return this.venueName + ", number of laps: " + this.numberOfLaps + " (avg time: " + this.averageLapTime + "), with a chance of raining " + String.format("%.1f",(this.chanceOfRain*100)) +"%";
     }
     
     public int getAverageLapTime() {

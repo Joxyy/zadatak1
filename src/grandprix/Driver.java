@@ -15,9 +15,8 @@ public class Driver implements Comparable<Driver>{
     private String specialSkill;
     private boolean eligibleToRace;    //podrazumevano je false
     private int accumulatedTime;
-    private int remainTime;
     private int accumulatedPoints;
-    private static String sortParam = "ranking";
+    private static String sortParam;
     private boolean dryPneu;
     
     public Driver(){}
@@ -36,14 +35,13 @@ public class Driver implements Comparable<Driver>{
     //prebacivanje objekta Driver u string reprezentaciju
     @Override
     public String toString() {
-            return "(" + this.ranking + ") " + this.name + ", skill: " + this.specialSkill;
+            return "(" + this.ranking + ") " + this.name + ", ("+this.accumulatedPoints+" points); skill: " + this.specialSkill;
     }
     
     
     
     @Override   //ovo ce nam omoguciti da sortiramo
     public int compareTo(Driver other) {
-        if(this.isEligibleToRace()){
             if(sortParam.equalsIgnoreCase("ranking")){
                 if (this.ranking < other.ranking) return -1;
                 else if (this.ranking > other.ranking) return 1;
@@ -54,19 +52,23 @@ public class Driver implements Comparable<Driver>{
                 else if (this.accumulatedPoints > other.accumulatedPoints) return -1;
                 else return 0;
             }
+            
             else if(sortParam.equalsIgnoreCase("time")){
+                if(this.accumulatedTime==-1)    return 1;     //ako nije eligible
+                if(this.accumulatedTime == other.accumulatedTime){
+                    RNG rng = new RNG(1,8);
+                    this.accumulatedTime=rng.getRandomValue();
+                    other.accumulatedTime=rng.getRandomValue();
+                }
                 if (this.accumulatedTime < other.accumulatedTime) return -1;
-                else if (this.accumulatedTime > other.accumulatedTime) return 1;
-                else return 0;
+                if (this.accumulatedTime > other.accumulatedTime) return 1;
             }
             return 0;
-        }
-        else return 1;
     } 
     
     public void useSpecialSkill(RNG rng){
         this.accumulatedTime-=rng.getRandomValue();
-        System.out.println(this.name + " will use " + this.specialSkill + " (-" + rng.getDesiredRnd()+ ")");
+        System.out.println(this.name + " will use " + this.specialSkill + " (-" + rng.getDesiredRnd()+ "s; updated accumulated time "+this.getAccumulatedTime()+"s)");
     }
 
     public String getName() {

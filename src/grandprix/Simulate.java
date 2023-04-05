@@ -19,46 +19,42 @@ public class Simulate {
      * @param args the command line arguments
      * @throws java.io.IOException
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         // TODO code application logic here
         Scanner sc = new Scanner(System.in);
         Championship f1 = new Championship();
         
+
+        System.out.println("Desired number of races (3÷5): ");
+        int numOfRaces = 0;
         
-        System.out.println("Učitani podaci o igracima:\n");
-        f1.printAllDrivers();
-        System.out.println("-------------------------------------");
-        System.out.println("Učitani podaci o stazama:\n");
-        f1.printAllVenues();
-        System.out.println("-------------------------------------");
-        
-        System.out.println("Koliko trka ce se voziti (3÷5)");
-        int raceNum = 0;
         boolean notRead = true;
         do {
                 if (sc.hasNextInt()) {
-                        raceNum = sc.nextInt();
-                        if(raceNum>=3 && raceNum<= 5) notRead = false;
-                        else System.out.println("GRESKA - Pogresno unesena vrednost, pokusajte ponovo: ");
+                        numOfRaces = sc.nextInt();
+                        if(numOfRaces>=3 && numOfRaces<= 5) notRead = false;
+                        else System.out.println("ERROR - Wrong value, try again: ");
                 } else {
-                        System.out.println("GRESKA - Pogresno unsesena vrednost, pokusajte ponovo: ");
+                        System.out.println("ERROR - Wrong value, try again: ");
                 }
                 sc.nextLine(); //cisti sve sa ulaza sto nije broj ili ostatak teste posla broja
         } while (notRead);
-        System.out.println("-------------------------------------");
         
-        System.out.println("Odaberite prvu stazu (uneti pun naziv):");
-        String venueName = sc.nextLine();
-        while(f1.venueSelection(venueName)) venueName = sc.nextLine();
-        System.out.println("-------------------------------------");
-        
-        System.out.println("Priprema za prvu stazu:\n");
-        f1.prepareForTheRace();
-        System.out.println("-------------------------------------");
-        System.out.println(raceNum + ". trka:");
-        //u for petlji do raceNum trka
-        f1.race();
-        
+        for(int i=1;i<=numOfRaces;i++){
+            System.out.println("-------------------------------------");
+            System.out.println("Choose " + i + ". venue (full name):\n");
+            f1.printAllVenues();
+            String venueName = sc.nextLine();
+            while(f1.venueSelection(venueName)) venueName = sc.nextLine();
+            System.out.println("-------------------------------------");
+
+            System.out.println("-------------------------------------");
+            System.out.println(i + ". trka:");
+            System.out.println("-------------------------------------");
+            //u for petlji do raceNum trka
+            f1.race();
+        }
+        f1.printChampion(numOfRaces);
         
     }
     
