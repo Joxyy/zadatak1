@@ -19,6 +19,8 @@ public class Driver implements Comparable<Driver>{
     private static String sortParam;
     private boolean dryPneu;
     
+    public static boolean randomisation;
+    
     public Driver(){}
     
     public Driver(String data){
@@ -56,9 +58,7 @@ public class Driver implements Comparable<Driver>{
             else if(sortParam.equalsIgnoreCase("time")){
                 if(this.accumulatedTime==-1)    return 1;     //ako nije eligible
                 if(this.accumulatedTime == other.accumulatedTime){
-                    RNG rng = new RNG(1,8);
-                    this.accumulatedTime=rng.getRandomValue();
-                    other.accumulatedTime=rng.getRandomValue();
+                    randomisation=true;
                 }
                 if (this.accumulatedTime < other.accumulatedTime) return -1;
                 if (this.accumulatedTime > other.accumulatedTime) return 1;

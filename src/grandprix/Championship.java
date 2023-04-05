@@ -95,6 +95,7 @@ public class Championship {
         System.out.println("\n");
     }
     public void prepareForTheRace(){ // inicijalizacija atributa za svakog vozaca
+        Driver.randomisation=false;
         Driver.setSortParam("ranking");
         Collections.sort(drivers);
         System.out.println("Current status:\n");
@@ -261,8 +262,16 @@ public class Championship {
     public void pointsAssign(){
         Driver.setSortParam("time");    //sortira po akumuliranom vremenu
         Collections.sort(drivers);
-        for (int i=0;i<4;i++){
-            drivers.get(i).setAccumulatedPoints(drivers.get(i).getAccumulatedPoints()+points[i]);
+        if(!Driver.randomisation){
+            for (int i=0;i<4;i++){
+                drivers.get(i).setAccumulatedPoints(drivers.get(i).getAccumulatedPoints()+points[i]);
+            }
+        }
+        else{
+            for(Driver d:drivers){
+                RNG rng=new RNG(0,8);
+                d.setAccumulatedPoints(rng.getRandomValue());
+             }
         }
     }
     public void rankingAssign(){

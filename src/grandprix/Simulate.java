@@ -25,7 +25,7 @@ public class Simulate {
         Championship f1 = new Championship();
         
 
-        System.out.println("Desired number of races (3÷5): ");
+        System.out.println("Desired number of races (3-5): ");
         int numOfRaces = 0;
         
         boolean notRead = true;
